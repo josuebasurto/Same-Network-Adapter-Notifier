@@ -1,6 +1,6 @@
 ﻿namespace Selbig
 {
-    partial class Form1
+    partial class Principal
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Principal));
             this.btnManual = new System.Windows.Forms.Button();
             this.lbNetworks = new System.Windows.Forms.ListBox();
             this.cbNotify = new System.Windows.Forms.CheckBox();

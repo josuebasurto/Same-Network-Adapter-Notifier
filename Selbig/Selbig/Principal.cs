@@ -25,6 +25,7 @@ namespace Selbig
 
         private void Scan()
         {
+            ReiniciaRed();
             lbNetworks.Items.Clear();
 
             foreach (NetworkInterface netif in NetworkInterface.GetAllNetworkInterfaces())
@@ -45,6 +46,12 @@ namespace Selbig
             }
 
             Notifica();
+        }
+
+        private void ReiniciaRed()
+        {
+            if (validas != null)
+                validas.Clear();
         }
 
         private void Notifica()
@@ -97,7 +104,14 @@ namespace Selbig
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Hide();
+            
+
+        }
+
+        private void tmrInicial_Tick(object sender, EventArgs e)
+        {
+            tmrInicial.Enabled = false;
+            this.Hide();
             Activa(true);
         }
     }

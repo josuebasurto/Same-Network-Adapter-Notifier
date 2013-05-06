@@ -22,5 +22,29 @@ namespace Selbig.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DisableNotification {
+            get {
+                return ((bool)(this["DisableNotification"]));
+            }
+            set {
+                this["DisableNotification"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int SecsVerify {
+            get {
+                return ((int)(this["SecsVerify"]));
+            }
+            set {
+                this["SecsVerify"] = value;
+            }
+        }
     }
 }

@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Net.NetworkInformation;
+using Selbig.Properties;
+using System.Configuration;
 
 namespace Selbig
 {
@@ -14,6 +16,28 @@ namespace Selbig
         public Principal()
         {
             InitializeComponent();
+
+            Inicializa();
+        }
+
+        private void Inicializa()
+        {
+            Rectangle workingArea = Screen.GetWorkingArea(this);
+            ideal = new Point(workingArea.Right - Size.Width, workingArea.Bottom - Size.Height);
+            LoadConfigs();
+        }
+
+        private void LoadConfigs()
+        {
+            try
+            {
+                cbNotify.Enabled = Settings.Default.DisableNotification;
+                tmrNotifica.Interval = Settings.Default.SecsVerify;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("No se pudieron cargar las configuraciones.");
+            }
         }
 
         private void btnManual_Click(object sender, EventArgs e)
@@ -33,7 +57,7 @@ namespace Selbig
                 if (netif.NetworkInterfaceType == NetworkInterfaceType.Ethernet ||
                     netif.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
                 {
-                    lbNetworks.Items.Add("------------------------" + netif.Name);
+                    lbNetworks.Items.Add(netif.Name);
 
                     IPInterfaceProperties properties = netif.GetIPProperties();
                     foreach (IPAddressInformation unicast in properties.UnicastAddresses)
@@ -78,8 +102,22 @@ namespace Selbig
 
         private void btnToTray_Click(object sender, EventArgs e)
         {
-            this.Hide();
             Activa(true);
+            AnimateDown();
+            this.Hide();
+        }
+
+        private void AnimateDown()
+        {
+
+            for (int i = 0; i < this.Height + 30; i++)
+                this.Top++;
+        }
+
+        private void AnimateUp()
+        {
+            for (int i = 0; i < this.Height + 30; i++)
+                this.Top--;
         }
 
         private void Activa(Boolean b)
@@ -94,6 +132,7 @@ namespace Selbig
         private void notifyIcon1_DoubleClick(object sender, EventArgs e)
         {
             this.Show();
+            AnimateUp();
             Activa(false);
         }
 
@@ -102,17 +141,35 @@ namespace Selbig
             Scan();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            
-
-        }
-
         private void tmrInicial_Tick(object sender, EventArgs e)
         {
             tmrInicial.Enabled = false;
+            AnimateDown();
             this.Hide();
             Activa(true);
+        }
+
+        private void Principal_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
+
+        Point ideal;
+
+        private void Principal_Shown(object sender, EventArgs e)
+        {
+            Location = ideal;
+        }
+
+        private void Principal_LocationChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void Principal_DragEnter(object sender, DragEventArgs e)
+        {
+            this.Location = ideal;
         }
     }
 }
